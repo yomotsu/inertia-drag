@@ -201,7 +201,7 @@ export class InertiaDrag {
 
 	destroy() {
 
-		this.stop()
+		this.stop();
 		this.forceDragEnd();
 		this._$el.removeEventListener( 'mousedown', this._onDragStart );
 		this._$el.removeEventListener( 'touchstart', this._onDragStart );
@@ -241,7 +241,7 @@ export class InertiaDrag {
 			accumulatedY: this._accumulatedY,
 		} );
 
-		this.stop()
+		this.stop();
 		this._updateVelocity();
 		document.addEventListener( 'mousemove', this._onDragMove );
 		document.addEventListener( 'touchmove', this._onDragMove, passiveFalse );

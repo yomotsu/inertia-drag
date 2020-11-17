@@ -1,6 +1,6 @@
 {
   "name": "inertia-drag",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Yomotsu",
   "license": "MIT",
   "main": "dist/inertia-drag.js",
@@ -67,6 +67,6 @@
     }
   },
   "keywords": [
-    "svg"
+    "drag"
   ]
 }
