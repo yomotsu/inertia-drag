@@ -2,65 +2,69 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>=^.^=</title>
 <style>
-#myBox{
-    cursor: move;
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    background: #0ad;
-    -webkit-transform: tlanslateZ( 0 );
-       -moz-transform: tlanslateZ( 0 );
-        -ms-transform: tlanslateZ( 0 );
-         -o-transform: tlanslateZ( 0 );
-            transform: tlanslateZ( 0 );
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+#myBox {
+	cursor: move;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	background: #0ad;
+	user-select: none;
 }
-#container{
-    position: relative;
-    border: 3px solid #000;
-    width: 500px;
-    height: 500px;
+
+#container {
+	position: relative;
+	border: 3px solid #000;
+	width: 500px;
+	height: 500px;
 }
 </style>
 </head>
 <body>
 
 <div id="container">
-    <div id="myBox">drag me!</div>
+	<div id="myBox">drag me!</div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="../InertiaDrag.js"></script>
+<script src="../dist/inertia-drag.js"></script>
 <script>
+const $el = document.querySelector( '#myBox' );
+const $container = document.querySelector( '#container' );
+const inertiaDrag = new InertiaDrag( $el );
+const elRect = $el.getBoundingClientRect();
+const offsetLeft = elRect.left;
+const offsetTop = elRect.top;
+const minX = 0;
+const minY = 0;
+const maxX = $container.offsetWidth  - $el.offsetWidth;
+const maxY = $container.offsetHeight - $el.offsetHeight;
 
-var instance = new InertiaDrag( 'myBox' );
+const onMove = function ( event ) {
 
-var minX = 0;
-var minY = 0;
-var maxX = $( '#container' ).width()  - instance.$el.width();
-var maxY = $( '#container' ).height() - instance.$el.height();
+	const elRect = $el.getBoundingClientRect();
+	const x = event.deltaX + elRect.left - offsetLeft;
+	const y = event.deltaY + elRect.top - offsetTop;
+	$el.style.transform = 'translate( ' + x + 'px, ' + y + 'px )';
 
-instance.addEventListener( 'update', function ( e ) {
-    var x = instance.x;
-    var y = instance.y;
-    if( x < minX ) { x = minX; }
-    if( y < minY ) { y = minY; }
-    if( x > maxX ) { x = maxX; }
-    if( y > maxY ) { y = maxY; }
+	const x2 =
+		x < minX ? minX :
+		x > maxX ? maxX :
+		x;
 
-    instance.$el.css( {
-        left: x,
-        top: y
-    } );
-} );
+	const y2 =
+		y < minY ? minY :
+		y > maxY ? maxY :
+		y;
+
+	$el.style.transform = 'translate( ' + x2 + 'px, ' + y2 + 'px )';
+
+};
+
+inertiaDrag.addEventListener( 'dragmove', onMove );
+inertiaDrag.addEventListener( 'inertiamove', onMove );
 </script>
-
-<button onclick="instance.stop(); instance.update( 0, 0 )">Reset</button>
-
+<button onclick="$el.style.transform = ''">Reset</button>
 </body>
 </html>

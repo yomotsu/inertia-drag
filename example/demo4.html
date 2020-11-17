@@ -2,70 +2,51 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>=^.^=</title>
 <style>
 body{
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 canvas{
-    display: block;
+	display: block;
 }
 </style>
 </head>
 <body>
 
-<div id="container"></div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="../InertiaDrag.js"></script>
-<script src="./lib/three.min.js"></script>
+<script src="https://unpkg.com/three@0.122.0/build/three.min.js"></script>
+<script src="../dist/inertia-drag.js"></script>
 <script>
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-var camera, scene, renderer;
-var geometry, material, mesh;
-var width = window.innerWidth;
-var height = window.innerHeight;
+const camera = new THREE.PerspectiveCamera( 60, width / height, 1, 100 );
+camera.position.z = 3;
+const scene = new THREE.Scene();
+const box = new THREE.Mesh(
+	new THREE.BoxBufferGeometry( 1, 1, 1 ),
+	new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
+);
+scene.add( box );
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( width, height );
+document.body.appendChild( renderer.domElement );
+renderer.render( scene, camera );
 
-init();
+const inertiaDrag = new InertiaDrag( renderer.domElement );
+inertiaDrag.friction = 0.95;
+const onMove = function ( event ) {
 
-function init() {
-    camera = new THREE.PerspectiveCamera( 75, width / height, 1, 10000 );
-    camera.position.z = 1000;
+	box.rotation.x += event.deltaY / 2 * THREE.MathUtils.DEG2RAD;
+	box.rotation.y += event.deltaX / 2 * THREE.MathUtils.DEG2RAD;
+	renderer.render( scene, camera );
 
-    scene = new THREE.Scene();
+};
 
-    geometry = new THREE.CubeGeometry( 200, 200, 200 );
-    material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-
-    mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
-
-    renderer = new THREE.CanvasRenderer();
-    renderer.setSize( width, height );
-    document.getElementById( 'container' ).appendChild( renderer.domElement );
-    renderer.render( scene, camera );
-}
-
-var instance = new InertiaDrag( 'container' );
-var rotationState = { x: 0, y: 0 };
-
-instance.addEventListener( 'dragStart', function ( e ) {
-    rotationState.x = mesh.rotation.x;
-    rotationState.y = mesh.rotation.y;
-} );
-instance.addEventListener( 'update', function ( e ) {
-    var x = instance.y * 0.01 + rotationState.x;
-    var y = instance.x * 0.01 + rotationState.y;
-    // x = Math.min( x,  90 * Math.PI / 180 );
-    // x = Math.max( x, -90 * Math.PI / 180 );
-    mesh.rotation.x = x;
-    mesh.rotation.y = y;
-    renderer.render( scene, camera );
-} );
-
+inertiaDrag.addEventListener( 'dragmove', onMove );
+inertiaDrag.addEventListener( 'inertiamove', onMove );
 </script>
-
-
 </body>
 </html>

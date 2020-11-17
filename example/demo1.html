@@ -2,22 +2,20 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>=^.^=</title>
 <style>
-#myBox{
-    text-align: center;
-    cursor: move;
-    width: 300px;
-    height:300px;
-    margin: 80px auto;
-    background: #0ad;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+#myBox {
+	text-align: center;
+	cursor: move;
+	width: 300px;
+	height:300px;
+	margin: 80px auto;
+	background: #0ad;
+	user-select: none;
 }
-#logX{position:absolute; top:10px; z-index:10;}
-#logY{position:absolute; top:30px; z-index:10;}
+#logX { position:absolute; top:10px; }
+#logY { position:absolute; top:30px; }
 </style>
 </head>
 <body>
@@ -26,16 +24,20 @@
 <div id="logX"></div>
 <div id="logY"></div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="../InertiaDrag.js"></script>
+<script src="../dist/inertia-drag.js"></script>
 <script>
-var instance = new InertiaDrag( 'myBox' );
-instance.addEventListener( 'update', function ( e ) {
-    $( '#logX' ).html( 'X:' + ( instance.x ) );
-    $( '#logY' ).html( 'Y:' + ( instance.y ) );
-} );
+const $el = document.querySelector( '#myBox' );
+const inertiaDrag = new InertiaDrag( $el );
 
+const onMove = function ( event ) {
+
+	logX.innerHTML = 'X:' + event.accumulatedX;
+	logY.innerHTML = 'Y:' + event.accumulatedY;
+
+};
+
+inertiaDrag.addEventListener( 'dragmove', onMove );
+inertiaDrag.addEventListener( 'inertiamove', onMove );
 </script>
-
 </body>
 </html>

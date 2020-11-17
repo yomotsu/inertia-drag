@@ -1,7 +1,6 @@
 InertiaDrag
 ===========
 
-to drag with inertia.
 see demos
 
 ## demos

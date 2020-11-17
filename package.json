@@ -1,0 +1,72 @@
+{
+  "name": "inertia-drag",
+  "version": "0.0.0",
+  "author": "Yomotsu",
+  "license": "MIT",
+  "main": "dist/inertia-drag.js",
+  "jsnext:main": "dist/inertia-drag.module.js",
+  "module": "dist/inertia-drag.module.js",
+  "types": "dist/index.d.ts",
+  "repository": "yomotsu/inertia-drag",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.8.0",
+    "@typescript-eslint/parser": "^4.8.0",
+    "downlevel-dts": "^0.7.0",
+    "eslint": "^7.13.0",
+    "eslint-config-mdcs": "^5.0.0",
+    "rollup": "^2.33.2",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "terser": "^5.4.0",
+    "typescript": "^4.0.5"
+  },
+  "scripts": {
+    "dev": "rollup --config --watch",
+    "build": "rollup --config && terser dist/inertia-drag.js -o dist/inertia-drag.min.js --comments '/^!/' && downlevel-dts . .",
+    "lint": "eslint src --ext ts"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11"
+  ],
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": "mdcs",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 1,
+      "indent": 0,
+      "@typescript-eslint/indent": [
+        "error",
+        "tab",
+        {
+          "SwitchCase": 1,
+          "flatTernaryExpressions": true
+        }
+      ],
+      "no-multi-spaces": [
+        0
+      ],
+      "key-spacing": [
+        0
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "/dist/",
+    "/node_modules/"
+  ],
+  "typesVersions": {
+    "<=3.4.0-0": {
+      "*": [
+        "./"
+      ]
+    }
+  },
+  "keywords": [
+    "svg"
+  ]
+}
