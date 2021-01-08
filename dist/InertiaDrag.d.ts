@@ -2,6 +2,8 @@ interface DragEvent {
     type: string;
     dragStartX: number;
     dragStartY: number;
+    deltaY: number;
+    deltaX: number;
     accumulatedX: number;
     accumulatedY: number;
 }
