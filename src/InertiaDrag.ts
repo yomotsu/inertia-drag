@@ -5,8 +5,10 @@ interface DragEvent {
 	type: string;
 	// clientX: number;
 	// clientY: number;
-	dragStartX: number,
-	dragStartY: number,
+	dragStartX: number;
+	dragStartY: number;
+	deltaY: number;
+	deltaX: number;
 	accumulatedX: number;
 	accumulatedY: number;
 }
@@ -29,8 +31,8 @@ interface InertiaMoveEvent extends DragEvent {
 
 interface DragCancelEvent {
 	type: 'dragcancel';
-	dragStartX: number,
-	dragStartY: number,
+	dragStartX: number;
+	dragStartY: number;
 	accumulatedX: number;
 	accumulatedY: number;
 }
