@@ -7,19 +7,19 @@ interface DragEvent {
     accumulatedX: number;
     accumulatedY: number;
 }
-interface DragStartEvent extends DragEvent {
+export interface DragStartEvent extends DragEvent {
     type: 'dragstart';
 }
-interface DragMoveEvent extends DragEvent {
+export interface DragMoveEvent extends DragEvent {
     type: 'dragmove';
 }
-interface DragEndEvent extends DragEvent {
+export interface DragEndEvent extends DragEvent {
     type: 'dragend';
 }
-interface InertiaMoveEvent extends DragEvent {
+export interface InertiaMoveEvent extends DragEvent {
     type: 'inertiamove';
 }
-interface DragCancelEvent {
+export interface DragCancelEvent {
     type: 'dragcancel';
     dragStartX: number;
     dragStartY: number;
