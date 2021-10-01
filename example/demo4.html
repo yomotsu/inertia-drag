@@ -5,48 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>=^.^=</title>
 <style>
-body{
-	margin: 0;
-	padding: 0;
+#container {
+	position: relative;
+	outline: 3px solid #000;
+	width: 500px;
+	height: 500px;
+	overflow: hidden;
 }
-canvas{
+
+#map {
+	cursor: move;
+	width: 2048px;
+	height: 2048px;
+	position: absolute;
+	background: #75bb4c;
+	user-select: none;
+	pointer-events: none;
+}
+
+#map img {
 	display: block;
+	width: 100%;
+	height: 100%;
 }
 </style>
 </head>
 <body>
 
-<script src="https://unpkg.com/three@0.122.0/build/three.min.js"></script>
+<div id="container">
+	<div id="map">
+		<img src="./map.jpg" alt="">
+		<!-- the map image from: https://www.instructables.com/How-to-Make-a-CUSTOM-Cartoon-MAP-for-FREE/ -->
+	</div>
+</div>
+
 <script src="../dist/inertia-drag.js"></script>
 <script>
-const width = window.innerWidth;
-const height = window.innerHeight;
+const $container = document.querySelector( '#container' );
+const $map = document.querySelector( '#map' );
+const inertiaDrag = new InertiaDrag( $container );
+const elRect = $container.getBoundingClientRect();
+const offsetLeft = elRect.left;
+const offsetTop = elRect.top;
+const containerWidth = elRect.width;
+const containerHeight = elRect.height;
+const mapWidth = 2048;
+const mapHeight = 2048;
+const minX = containerWidth - $map.offsetWidth;
+const minY = containerHeight - $map.offsetHeight;
+const maxX = 0;
+const maxY = 0;
+const position = { x: 0, y: 0 };
 
-const camera = new THREE.PerspectiveCamera( 60, width / height, 1, 100 );
-camera.position.z = 3;
-const scene = new THREE.Scene();
-const box = new THREE.Mesh(
-	new THREE.BoxBufferGeometry( 1, 1, 1 ),
-	new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
-);
-scene.add( box );
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize( width, height );
-document.body.appendChild( renderer.domElement );
-renderer.render( scene, camera );
-
-const inertiaDrag = new InertiaDrag( renderer.domElement );
-inertiaDrag.friction = 0.95;
 const onMove = function ( event ) {
 
-	box.rotation.x += event.deltaY / 2 * THREE.MathUtils.DEG2RAD;
-	box.rotation.y += event.deltaX / 2 * THREE.MathUtils.DEG2RAD;
-	renderer.render( scene, camera );
+	const elRect = $container.getBoundingClientRect();
+	const dx = event.deltaX + elRect.left - offsetLeft;
+	const dy = event.deltaY + elRect.top - offsetTop;
+	position.x = clamp( position.x + dx, minX, maxX );
+	position.y = clamp( position.y + dy, minY, maxY );
+
+	$map.style.transform = 'translate( ' + position.x + 'px, ' + position.y + 'px )';
 
 };
 
+moveTo( mapWidth / 2, mapWidth / 2, false );
+inertiaDrag.addEventListener( 'dragstart', stopCSSTransition );
 inertiaDrag.addEventListener( 'dragmove', onMove );
 inertiaDrag.addEventListener( 'inertiamove', onMove );
+
+
+function clamp( value, min, max ) {
+
+	return Math.max( min, Math.min( max, value ) );
+
+}
+
+function stopCSSTransition() {
+
+	$map.style.transform = window.getComputedStyle( $map ).transform;
+	$map.style.transition = 'none';
+
+	const matrix = $map.style.transform.match( /-?\d+\.?\d*/g );
+	position.x = + matrix[ 4 ];
+	position.y = + matrix[ 5 ];
+
+}
+
+function moveTo( x, y, enableTransition ) {
+
+	const tx = clamp( containerWidth / 2 - x, minX, maxX );
+	const ty = clamp( containerHeight / 2 - y, minY, maxY );
+
+	inertiaDrag.forceDragEnd();
+	inertiaDrag.stop();
+	if( enableTransition ) $map.style.transition = 'transform 1s';
+	$map.style.transform = 'translate( ' + tx + 'px, ' + ty + 'px )';
+
+}
+
+function reset() {
+
+	moveTo( mapWidth / 2, mapWidth / 2, true );
+
+}
 </script>
+<button onclick="reset();">Reset</button>
 </body>
 </html>
