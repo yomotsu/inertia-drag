@@ -144,7 +144,10 @@ class InertiaDrag {
         this._$el.removeEventListener('touchstart', this._onDragStart);
     }
     _handleDragStart(event) {
-        event.preventDefault();
+        if (event.target instanceof Element &&
+            event.target.getAttribute('data-ignore-dragging') !== null) {
+            return;
+        }
         document.removeEventListener('mousemove', this._onDragMove);
         document.removeEventListener('touchmove', this._onDragMove, passiveFalse);
         document.removeEventListener('mouseup', this._onDragEnd);
