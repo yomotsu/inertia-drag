@@ -212,7 +212,14 @@ export class InertiaDrag {
 
 	private _handleDragStart( event: Event ) {
 
-		event.preventDefault();
+		if (
+			event.target instanceof Element &&
+			event.target.getAttribute( 'data-ignore-dragging' ) !== null
+		) {
+
+			return;
+
+		}
 
 		document.removeEventListener( 'mousemove', this._onDragMove );
 		document.removeEventListener( 'touchmove', this._onDragMove, passiveFalse );
