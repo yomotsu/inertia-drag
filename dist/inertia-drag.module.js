@@ -46,7 +46,7 @@ class InertiaDrag {
     constructor($el) {
         this._isDragging = false;
         this._eventDispatcher = new EventDispatcher();
-        this._friction = 0.85;
+        this._friction = 0.15;
         this._dragStartX = 0;
         this._dragStartY = 0;
         this._dragLastX = 0;
@@ -76,8 +76,8 @@ class InertiaDrag {
             else {
                 const deltaX = this._velocityX;
                 const deltaY = this._velocityY;
-                this._velocityX *= this._friction;
-                this._velocityY *= this._friction;
+                this._velocityX *= (1 - this._friction);
+                this._velocityY *= (1 - this._friction);
                 this._dragLastX += deltaX;
                 this._dragLastY += deltaY;
                 this._accumulatedX += deltaX;
