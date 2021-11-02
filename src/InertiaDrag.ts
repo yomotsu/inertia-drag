@@ -53,7 +53,7 @@ export class InertiaDrag {
 	private _$el: Element;
 	private _eventDispatcher = new EventDispatcher();
 
-	private _friction = 0.85;
+	private _friction = 0.15;
 	// private _clientX = 0;
 	// private _clientY = 0;
 	private _dragStartX = 0;
@@ -101,8 +101,8 @@ export class InertiaDrag {
 				const deltaX = this._velocityX;
 				const deltaY = this._velocityY;
 
-				this._velocityX *= this._friction;
-				this._velocityY *= this._friction;
+				this._velocityX *= ( 1 - this._friction );
+				this._velocityY *= ( 1 - this._friction );
 
 				this._dragLastX += deltaX;
 				this._dragLastY += deltaY;
