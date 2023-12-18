@@ -16,7 +16,7 @@
 
 #container {
 	position: relative;
-	border: 3px solid #000;
+	outline: 3px solid #000;
 	width: 500px;
 	height: 500px;
 }
@@ -44,8 +44,8 @@ const maxY = $container.offsetHeight - $el.offsetHeight;
 const onMove = function ( event ) {
 
 	const elRect = $el.getBoundingClientRect();
-	const x = event.deltaX + elRect.left - offsetLeft;
-	const y = event.deltaY + elRect.top - offsetTop;
+	const x = event.deltaX + elRect.left - offsetLeft + document.scrollingElement.scrollLeft;
+	const y = event.deltaY + elRect.top - offsetTop + document.scrollingElement.scrollTop;
 	$el.style.transform = 'translate( ' + x + 'px, ' + y + 'px )';
 
 	const x2 =

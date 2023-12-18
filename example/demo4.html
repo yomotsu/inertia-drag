@@ -60,8 +60,8 @@ const position = { x: 0, y: 0 };
 const onMove = function ( event ) {
 
 	const elRect = $container.getBoundingClientRect();
-	const dx = event.deltaX + elRect.left - offsetLeft;
-	const dy = event.deltaY + elRect.top - offsetTop;
+	const dx = event.deltaX + elRect.left - offsetLeft + document.scrollingElement.scrollLeft;
+	const dy = event.deltaY + elRect.top - offsetTop + document.scrollingElement.scrollTop;
 	position.x = clamp( position.x + dx, minX, maxX );
 	position.y = clamp( position.y + dy, minY, maxY );
 

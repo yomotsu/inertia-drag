@@ -36,7 +36,7 @@ document.body.appendChild( renderer.domElement );
 renderer.render( scene, camera );
 
 const inertiaDrag = new InertiaDrag( renderer.domElement );
-inertiaDrag.friction = 0.95;
+inertiaDrag.friction = 0.05;
 const onMove = function ( event ) {
 
 	box.rotation.x += event.deltaY / 2 * THREE.MathUtils.DEG2RAD;
