@@ -56,9 +56,9 @@ export declare class InertiaDrag {
     private _onDragMove;
     private _onDragEnd;
     constructor($el: Element);
-    friction: number;
-    readonly isDragging: boolean;
-    readonly isInertiaMoving: boolean;
+    set friction(friction: number);
+    get isDragging(): boolean;
+    get isInertiaMoving(): boolean;
     addEventListener<K extends keyof DragEventMap>(type: K, listener: (event: DragEventMap[K]) => any): void;
     removeEventListener<K extends keyof DragEventMap>(type: K, listener: (event: DragEventMap[K]) => any): void;
     stop(): void;

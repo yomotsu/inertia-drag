@@ -216,4 +216,4 @@ function approxZero(number) {
     return Math.abs(number) < 0.001;
 }
 
-export default InertiaDrag;
+export { InertiaDrag as default };

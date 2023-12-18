@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "rollup --config --watch",
-    "build": "rollup --config && terser dist/inertia-drag.js -o dist/inertia-drag.min.js --comments '/^!/' && downlevel-dts . .",
+    "build": "rollup --config && terser dist/inertia-drag.js -o dist/inertia-drag.min.js --comments '/^!/'",
     "lint": "eslint src --ext ts"
   },
   "browserslist": [
